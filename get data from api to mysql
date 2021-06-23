@@ -1,0 +1,14 @@
+import requests
+import json
+import pymysql
+get_coingecko = 'https://api.coingecko.com/api/v3/coins/list?include_platform=ture'
+r = requests.get(get_coingecko)
+a = json.loads(r.text)
+conn = pymysql.connect(host='XXX', port=XXX, user='XXX', passwd='XXX', db='XXX')
+cursor = conn.cursor()
+cursor.execute('USE yourdatabasename')
+for i in a:
+    sql="INSERT INTO yourtablename(your column,for example:id,symbol,name) values (%s,%s,%s)"
+    k = (i["id"],i["symbol"],i["name"])
+    cursor.execute(sql,k)
+    conn.commit()
